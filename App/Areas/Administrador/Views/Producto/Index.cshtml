@@ -1,0 +1,79 @@
+@model IEnumerable<Domain.Models.Productos>
+
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Areas/Administrador/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+	<a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+	<thead>
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.Sku)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Nombre)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Descripcion)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.PrecioNormal)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.DescuentoPrecio)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Cantidad)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ImagenPrincipal)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Disponible)
+		</th>
+		<th></th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Sku)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Nombre)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Descripcion)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.PrecioNormal)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.DescuentoPrecio)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Cantidad)
+			</td>
+			<td>
+				<img width="200" src="@Html.DisplayFor(modelItem => item.ImagenPrincipal)" alt="@Html.DisplayFor(modelItem => item.Nombre)"/>
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Disponible)
+			</td>
+			<td>
+				<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+				<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+				<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+			</td>
+		</tr>
+	}
+	</tbody>
+</table>
