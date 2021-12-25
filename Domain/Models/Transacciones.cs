@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-#nullable disable
+﻿#nullable disable
 
 namespace Domain.Models
 {
-    public partial class Transacciones
+    public class Transacciones
     {
         public long Id { get; set; }
         public string Codigo { get; set; }

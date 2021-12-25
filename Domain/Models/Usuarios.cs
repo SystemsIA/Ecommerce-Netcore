@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 #nullable disable
 
 namespace Domain.Models
 {
-    public partial class Usuarios
+    public class Usuarios
     {
         public Usuarios()
         {

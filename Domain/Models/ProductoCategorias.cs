@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-#nullable disable
+﻿#nullable disable
 
 namespace Domain.Models
 {
-    public partial class ProductoCategorias
+    public class ProductoCategorias
     {
         public long CategoriaId { get; set; }
         public long ProductoId { get; set; }
