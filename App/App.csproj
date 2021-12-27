@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj"/>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -14,22 +14,37 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.10"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.13"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2"/>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Administrador\Controllers"/>
-    <Folder Include="Areas\Administrador\Data"/>
-    <Folder Include="Areas\Administrador\Models"/>
-    <Folder Include="Areas\Public\Controllers"/>
-    <Folder Include="Areas\Public\Data"/>
-    <Folder Include="Areas\Public\Models"/>
+    <Folder Include="Areas\Administrador\Controllers" />
+    <Folder Include="Areas\Administrador\Data" />
+    <Folder Include="Areas\Administrador\Models" />
+    <Folder Include="Areas\Public\Data" />
+    <Folder Include="Areas\Public\Models" />
+    <Folder Include="Areas\Cliente\Controllers" />
+    <Folder Include="Areas\Cliente\Models" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
   </ItemGroup>
 
 </Project>
