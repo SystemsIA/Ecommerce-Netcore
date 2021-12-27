@@ -45,7 +45,9 @@ namespace App
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
@@ -55,7 +57,8 @@ namespace App
                 );
                 endpoints.MapControllerRoute(
                     "default",
-                    "{controller=Home}/{action=Index}/{id?}");
+                    "{controller=Home}/{action=Index}/{id?}"
+                );
             });
         }
     }

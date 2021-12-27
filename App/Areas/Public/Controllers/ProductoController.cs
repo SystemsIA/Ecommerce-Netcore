@@ -17,13 +17,8 @@ namespace App.Areas.Public.Controllers
             _context = context;
         }
 
-        // GET: Public/Producto
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Productos.ToListAsync());
-        }
-
         // GET: Public/Producto/Details/5
+        [HttpGet("producto-detail/{id:long}")]
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null) return NotFound();
