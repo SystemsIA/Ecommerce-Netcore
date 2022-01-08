@@ -1,0 +1,32 @@
+﻿@model App.Areas.Cliente.Data.UserLogin;
+@{
+	ViewData["Title"] = "Iniciar Sesión";
+	Layout = "~/Areas/Cliente/Views/Shared/_Layout.cshtml";
+	ViewBag.redirect = Context.Request.Query["redirect"];
+}
+<div class="container">
+	<div class="row gap-3 justify-content-center">
+		<div class="col-lg-6 col-md-6 col-sm-6">
+			<h2 class="text-center">Iniciar Sesión</h2>
+			<br>
+			<p class="text-danger">@ViewBag.Message</p>
+			<form class="row g-3" asp-action="Login" method="post">
+				<div class="form-group">
+					<label asp-for=Email class="form-label">Correo</label>
+					<input type="email" asp-for=Email class="form-control" placeholder="example@mail.com">
+				</div>
+				<div class="form-group">
+					<label asp-for=Password class="form-label">Contraseña</label>
+					<input type="password" asp-for=Password class="form-control">
+				</div>
+				<div class="form-group d-flex flex-column gap-3 align-content-center">
+					<button class="btn btn-primary" type="submit">Iniciar Sesión</button>
+					<button class="btn btn-info" type="reset">Limpiar el formulario</button>
+				</div>
+			</form>
+			<div class="form-group">
+				Si no tienes una cuenta registrarse <a asp-controller=Usuario asp-action=Create>aquí</a>
+			</div>
+		</div>
+	</div>
+</div>

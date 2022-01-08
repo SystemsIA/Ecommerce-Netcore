@@ -1,0 +1,19 @@
+﻿<div class="col d-flex justify-content-center my-2">
+  <div class="card" style="width: 18rem;">
+    <img src="@Item.ImagenPrincipal" class="card-img-top" alt="@Item.Nombre">
+    <div class="card-body">
+      <h5 class="card-title text-sm-center text-black">@Item.Nombre</h5>
+      <p class="card-text text-sm-center">@Item.Descripcion</p>
+      <div class=" text-center my-1 my-md-3">
+        Precio: S/.<span class="text-muted text-decoration-underline">@Item.PrecioNormal</span>
+      </div>
+      <div class="text-center">
+        <a class="btn btn-primary" asp-controller="Producto" asp-action="Details" asp-route-id="@Item.Id">Ver Producto</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+@code {
+  [Parameter] public Productos Item { get; set; }
+}

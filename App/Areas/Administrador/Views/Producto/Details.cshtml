@@ -1,79 +1,180 @@
 @model Domain.Models.Productos
 
 @{
-  ViewData["Title"] = "Details";
-  Layout = "~/Areas/Administrador/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Details";
+	Layout = "~/Areas/Administrador/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>Detalles del producto - @Model.Nombre</h1>
 
-<div>
-  <h4>Productos</h4>
-  <hr/>
-  <dl class=row>
-    <dt class=col-sm-2>
-      @Html.DisplayNameFor(model => model.Sku)
-    </dt>
-    <dd class=col-sm-10>
-      @Html.DisplayFor(model => model.Sku)
-    </dd>
-    <dt class=col-sm-2>
-      @Html.DisplayNameFor(model => model.Nombre)
-    </dt>
-    <dd class=col-sm-10>
-      @Html.DisplayFor(model => model.Nombre)
-    </dd>
-    <dt class=col-sm-2>
-      @Html.DisplayNameFor(model => model.Descripcion)
-    </dt>
-    <dd class=col-sm-10>
-      @Html.DisplayFor(model => model.Descripcion)
-    </dd>
-    <dt class=col-sm-2>
-      @Html.DisplayNameFor(model => model.PrecioNormal)
-    </dt>
-    <dd class=col-sm-10>
-      @Html.DisplayFor(model => model.PrecioNormal)
-    </dd>
-    <dt class=col-sm-2>
-      @Html.DisplayNameFor(model => model.DescuentoPrecio)
-    </dt>
-    <dd class=col-sm-10>
-      @Html.DisplayFor(model => model.DescuentoPrecio)
-    </dd>
-    <dt class=col-sm-2>
-      @Html.DisplayNameFor(model => model.Cantidad)
-    </dt>
-    <dd class=col-sm-10>
-      @Html.DisplayFor(model => model.Cantidad)
-    </dd>
-    <dt class=col-sm-2>
-      @Html.DisplayNameFor(model => model.ImagenPrincipal)
-    </dt>
-    <dd class=col-sm-10>
-      @Html.DisplayFor(model => model.ImagenPrincipal)
-    </dd>
-    <dt class=col-sm-2>
-      @Html.DisplayNameFor(model => model.Disponible)
-    </dt>
-    <dd class=col-sm-10>
-      @Html.DisplayFor(model => model.Disponible)
-    </dd>
-    <dt class=col-sm-2>
-      @Html.DisplayNameFor(model => model.CreatedAt)
-    </dt>
-    <dd class=col-sm-10>
-      @Html.DisplayFor(model => model.CreatedAt)
-    </dd>
-    <dt class=col-sm-2>
-      @Html.DisplayNameFor(model => model.UpdatedAt)
-    </dt>
-    <dd class=col-sm-10>
-      @Html.DisplayFor(model => model.UpdatedAt)
-    </dd>
-  </dl>
+@if (Model.Disponible)
+{
+	<h4 class="text-success">El producto esta disponible</h4>
+}
+else
+{
+	<h4 class="text-secondary">El producto no esta disponible</h4>
+}
+<hr/>
+<div class=row>
+	<div class="col col-sm-8">
+		<div class="row">
+			<div class="card">
+				<div class="card-header d-flex">
+					<h4 class="card-header-title ">@Html.DisplayNameFor(model => model.Nombre)</h4>
+					<div class="toolbar card-toolbar-tabs  ml-auto">
+						<ul class="nav nav-pills" id="pills-tab" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="false">Descripción</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link active show" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">Stock</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Imagen</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="card-body">
+					<h5 class="text-success">@Html.DisplayFor(model => model.Sku)</h5>
+					<div class="tab-content mb-3" id="pills-tabContent">
+						<div class="tab-pane fade" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+							<dl class="row">
+								<dt class=col-sm-4>
+									@Html.DisplayNameFor(model => model.Nombre)
+								</dt>
+								<dd class=col-sm-8>
+									@Html.DisplayFor(model => model.Nombre)
+								</dd>
+								<dt class=col-sm-4>
+									@Html.DisplayNameFor(model => model.Descripcion)
+								</dt>
+								<dd class=col-sm-8>
+									@Html.DisplayFor(model => model.Descripcion)
+								</dd>
+							</dl>
+						</div>
+						<div class="tab-pane fade active show" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+							<dl class="row">
+								<dt class=col-sm-7>
+									@Html.DisplayNameFor(model => model.DescuentoPrecio)
+								</dt>
+								<dd class=col-sm-5>
+									@Html.DisplayFor(model => model.DescuentoPrecio)
+								</dd>
+								<dt class=col-sm-7>
+									@Html.DisplayNameFor(model => model.PrecioNormal)
+								</dt>
+								<dd class=col-sm-5>
+									@Html.DisplayFor(model => model.PrecioNormal)
+								</dd>
+								<dt class=col-sm-7>
+									@Html.DisplayNameFor(model => model.Cantidad)
+								</dt>
+								<dd class=col-sm-5>
+									@Html.DisplayFor(model => model.Cantidad)
+								</dd>
+								<dt class=col-sm-7>
+									@Html.DisplayNameFor(model => model.Disponible)
+								</dt>
+								<dd class=col-sm-5>
+									@Html.DisplayFor(model => model.Disponible)
+								</dd>
+							</dl>
+
+						</div>
+						<div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+							<dl class="row">
+								<dt class=col-sm-5>
+									@Html.DisplayNameFor(model => model.Cantidad)
+								</dt>
+								<dd class=col-sm-5>
+									@Html.DisplayFor(model => model.Cantidad)
+								</dd>
+								<dt class=col-sm-5>
+									@Html.DisplayNameFor(model => model.ImagenPrincipal)
+								</dt>
+								<dd class=col-sm-5>
+									@Html.DisplayFor(model => model.ImagenPrincipal)
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="card">
+					<h5 class="card-header">Imagenes del producto</h5>
+					<div class="card-body">
+						<div id="carouselImagenesIndicators" class="carousel slide" data-ride="carousel">
+							<ol class="carousel-indicators">
+								<li data-target="#carouselImagenesIndicators" data-slide-to="0" class=""></li>
+								<li data-target="#carouselImagenesIndicators" data-slide-to="1" class="active"></li>
+								<li data-target="#carouselImagenesIndicators" data-slide-to="2" class=""></li>
+							</ol>
+							<div class="carousel-inner">
+								@if (Model.Imagenes != null)
+								{
+									@foreach (var item in Model.Imagenes)
+									{
+										<div class="carousel-item active">
+											<img src="/imagenes/productos/@Model.Id/@item.NombreImagen" class="d-block w-25" alt="@Model.Nombre + RutaImagen">
+										</div>
+									}
+								}
+							</div>
+							<a class="carousel-control-prev" href="#carouselImagenesIndicators" role="button" data-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="sr-only">Previous</span>
+							</a>
+							<a class="carousel-control-next" href="#carouselImagenesIndicators" role="button" data-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="sr-only">Next</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col col-sm-4">
+		<button class="btn btn-primary" data-toggle="modal" data-target="#modalImagenAddToProducto">Añadir imagen</button>
+	</div>
+
 </div>
 <div>
-  <a asp-action=Edit asp-route-id=@Model.Id>Edit</a> |
-  <a asp-action=Index>Back to List</a>
+	<a asp-action=Edit asp-route-id=@Model.Id>Edit</a> |
+	<a asp-action=Index>Back to List</a>
+</div>
+
+
+<div class="modal fade" id="modalImagenAddToProducto" tabindex="-1" role="dialog" aria-labelledby="modalImagenAddToProductoLabel" style="display: none;" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalImagenAddToProductoLabel">Añadir Imagen - @Model.Nombre</h5>
+				<a href="#" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</a>
+			</div>
+			<div class="modal-body">
+				<form asp-action="SubirImagen" method="post" enctype="multipart/form-data">
+					<input name="id" type="hidden" value="@Model.Id">
+					<div class="form-group">
+						<input name="imagen" accept="image/png,image/jpeg" type="file" class="form-control">
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">Subir Imagen</button>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-secondary" data-dismiss="modal">Cerrrar</a>
+				<a href="#" class="btn btn-primary">Guardar</a>
+			</div>
+		</div>
+	</div>
 </div>

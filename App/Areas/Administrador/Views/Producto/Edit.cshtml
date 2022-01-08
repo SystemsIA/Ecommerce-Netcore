@@ -1,80 +1,103 @@
 @model Domain.Models.Productos
 
 @{
-  ViewData["Title"] = "Edit";
-  Layout = "~/Areas/Administrador/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Edit";
+	Layout = "~/Areas/Administrador/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<h1>Modificar el producto</h1>
 
-<h4>Productos</h4>
+@if (Model.Disponible)
+{
+	<h4 class="text-success">El producto esta disponible</h4>
+}
+else
+{
+	<h4 class="text-secondary">El producto no esta disponible</h4>
+}
 <hr/>
 <div class=row>
-  <div class=col-md-4>
-    <form asp-action=Edit>
-      <div asp-validation-summary=ModelOnly class=text-danger></div>
-      <input type=hidden asp-for=Id/>
-      <div class=form-group>
-        <label asp-for=Sku class=control-label></label>
-        <input asp-for=Sku class=form-control/>
-        <span asp-validation-for=Sku class=text-danger></span>
-      </div>
-      <div class=form-group>
-        <label asp-for=Nombre class=control-label></label>
-        <input asp-for=Nombre class=form-control/>
-        <span asp-validation-for=Nombre class=text-danger></span>
-      </div>
-      <div class=form-group>
-        <label asp-for=Descripcion class=control-label></label>
-        <input asp-for=Descripcion class=form-control/>
-        <span asp-validation-for=Descripcion class=text-danger></span>
-      </div>
-      <div class=form-group>
-        <label asp-for=PrecioNormal class=control-label></label>
-        <input asp-for=PrecioNormal class=form-control/>
-        <span asp-validation-for=PrecioNormal class=text-danger></span>
-      </div>
-      <div class=form-group>
-        <label asp-for=DescuentoPrecio class=control-label></label>
-        <input asp-for=DescuentoPrecio class=form-control/>
-        <span asp-validation-for=DescuentoPrecio class=text-danger></span>
-      </div>
-      <div class=form-group>
-        <label asp-for=Cantidad class=control-label></label>
-        <input asp-for=Cantidad class=form-control/>
-        <span asp-validation-for=Cantidad class=text-danger></span>
-      </div>
-      <div class=form-group>
-        <label asp-for=ImagenPrincipal class=control-label></label>
-        <input asp-for=ImagenPrincipal class=form-control/>
-        <span asp-validation-for=ImagenPrincipal class=text-danger></span>
-      </div>
-      <div class="form-group form-check">
-        <label class=form-check-label>
-          <input class=form-check-input asp-for=Disponible/> @Html.DisplayNameFor(model => model.Disponible)
-        </label>
-      </div>
-      <div class=form-group>
-        <label asp-for=CreatedAt class=control-label></label>
-        <input asp-for=CreatedAt class=form-control/>
-        <span asp-validation-for=CreatedAt class=text-danger></span>
-      </div>
-      <div class=form-group>
-        <label asp-for=UpdatedAt class=control-label></label>
-        <input asp-for=UpdatedAt class=form-control/>
-        <span asp-validation-for=UpdatedAt class=text-danger></span>
-      </div>
-      <div class=form-group>
-        <input type=submit value=Save class="btn btn-primary"/>
-      </div>
-    </form>
-  </div>
+	<div class=col-md-8>
+		<form asp-action=Edit>
+			<div asp-validation-summary=ModelOnly class=text-danger></div>
+			<input type=hidden asp-for=Id/>
+			<input type=hidden asp-for=Sku/>
+			<div class=form-group>
+				<label asp-for=Nombre class=control-label></label>
+				<input asp-for=Nombre class=form-control/>
+				<span asp-validation-for=Nombre class=text-danger></span>
+			</div>
+			<div class=form-group>
+				<label asp-for=Descripcion class=control-label></label>
+				<textarea class=form-control asp-for=Descripcion></textarea>
+				<span asp-validation-for=Descripcion class=text-danger></span>
+			</div>
+			<div class=form-group>
+				<label asp-for=PrecioNormal class=control-label></label>
+				<input asp-for=PrecioNormal class=form-control/>
+				<span asp-validation-for=PrecioNormal class=text-danger></span>
+			</div>
+			<div class=form-group>
+				<label asp-for=DescuentoPrecio class=control-label></label>
+				<input asp-for=DescuentoPrecio class=form-control/>
+				<span asp-validation-for=DescuentoPrecio class=text-danger></span>
+			</div>
+			<div class=form-group>
+				<label asp-for=Cantidad class=control-label></label>
+				<input asp-for=Cantidad class=form-control/>
+				<span asp-validation-for=Cantidad class=text-danger></span>
+			</div>
+			<div class=form-group>
+				<label asp-for=ImagenPrincipal class=control-label></label>
+				<input asp-for=ImagenPrincipal class=form-control/>
+				<span asp-validation-for=ImagenPrincipal class=text-danger></span>
+			</div>
+			<div class="form-group form-check">
+				<label class=form-check-label>
+					<input class=form-check-input asp-for=Disponible/> @Html.DisplayNameFor(model => model.Disponible)
+				</label>
+			</div>
+			<div class=form-group>
+				<input type=submit value="Guardar los cambios" class="btn btn-primary"/>
+			</div>
+		</form>
+	</div>
+	<div class="col col-sm-4">
+		<button class="btn btn-primary " data-toggle="modal" data-target="#modalImagenAddToProducto">Añadir imagen</button>
+	</div>
 </div>
 
 <div>
-  <a asp-action=Index>Back to List</a>
+	<a asp-action=Index>Back to List</a>
+</div>
+<div class="modal fade" id="modalImagenAddToProducto" tabindex="-1" role="dialog" aria-labelledby="modalImagenAddToProductoLabel" style="display: none;" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalImagenAddToProductoLabel">Añadir Imagen - @Model.Nombre</h5>
+				<a href="#" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</a>
+			</div>
+			<div class="modal-body">
+				<form asp-action="SubirImagen" method="post" enctype="multipart/form-data">
+					<input name="id" type="hidden" value="@Model.Id">
+					<div class="form-group">
+						<input name="imagen" accept="image/png,image/jpeg" type="file" class="form-control">
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">Subir Imagen</button>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-secondary" data-dismiss="modal">Cerrrar</a>
+				<a href="#" class="btn btn-primary">Guardar</a>
+			</div>
+		</div>
+	</div>
 </div>
 
 @section Scripts {
-  @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

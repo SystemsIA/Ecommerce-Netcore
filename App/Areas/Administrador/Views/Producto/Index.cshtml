@@ -1,79 +1,79 @@
 @model IEnumerable<Domain.Models.Productos>
 
 @{
-  ViewData["Title"] = "Index";
-  Layout = "~/Areas/Administrador/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Gestión Productos";
+	Layout = "~/Areas/Administrador/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+	<h1>Todos los Productos</h1>
 
-<p>
-  <a asp-action=Create>Create New</a>
-</p>
-<table class=table>
-  <thead>
-  <tr>
-    <th>
-      @Html.DisplayNameFor(model => model.Sku)
-    </th>
-    <th>
-      @Html.DisplayNameFor(model => model.Nombre)
-    </th>
-    <th>
-      @Html.DisplayNameFor(model => model.Descripcion)
-    </th>
-    <th>
-      @Html.DisplayNameFor(model => model.PrecioNormal)
-    </th>
-    <th>
-      @Html.DisplayNameFor(model => model.DescuentoPrecio)
-    </th>
-    <th>
-      @Html.DisplayNameFor(model => model.Cantidad)
-    </th>
-    <th>
-      @Html.DisplayNameFor(model => model.ImagenPrincipal)
-    </th>
-    <th>
-      @Html.DisplayNameFor(model => model.Disponible)
-    </th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  @foreach (var item in Model)
-  {
-    <tr>
-      <td>
-        @Html.DisplayFor(modelItem => item.Sku)
-      </td>
-      <td>
-        @Html.DisplayFor(modelItem => item.Nombre)
-      </td>
-      <td>
-        @Html.DisplayFor(modelItem => item.Descripcion)
-      </td>
-      <td>
-        @Html.DisplayFor(modelItem => item.PrecioNormal)
-      </td>
-      <td>
-        @Html.DisplayFor(modelItem => item.DescuentoPrecio)
-      </td>
-      <td>
-        @Html.DisplayFor(modelItem => item.Cantidad)
-      </td>
-      <td>
-        <img width="200" src="@Html.DisplayFor(modelItem => item.ImagenPrincipal)" alt="@Html.DisplayFor(modelItem => item.Nombre)"/>
-      </td>
-      <td>
-        @Html.DisplayFor(modelItem => item.Disponible)
-      </td>
-      <td>
-        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-      </td>
-    </tr>
-  }
-  </tbody>
-</table>
+	<p>
+		<a asp-action=Create>Agregar nuevo producto</a>
+	</p>
+	<div class="card">
+		<h5 class="card-header">Todos los productos</h5>
+		<card class="card-body">
+			<table class="table table-hover">
+				<thead>
+				<tr>
+					<th>
+						@Html.DisplayNameFor(model => model.Sku)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Nombre)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.PrecioNormal)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.DescuentoPrecio)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Cantidad)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.ImagenPrincipal)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Disponible)
+					</th>
+					<th></th>
+				</tr>
+				</thead>
+				<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => item.Sku)
+						</td>
+						<td>
+							<a class="text-success" asp-route-id="@item.Id" asp-action="Details" asp-controller="Producto">@Html.DisplayFor(modelItem => item.Nombre)</a>
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.PrecioNormal)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.DescuentoPrecio)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Cantidad)
+						</td>
+						<td>
+							<img width="150" src="@Html.DisplayFor(modelItem => item.ImagenPrincipal)" alt="@Html.DisplayFor(modelItem => item.Nombre)"/>
+						</td>
+						<td>
+							<span class="text-success">@Html.DisplayFor(modelItem => item.Disponible)</span> 
+						</td>
+						<td>
+							<a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+							<a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+						</td>
+					</tr>
+				}
+				</tbody>
+			</table>
+		</card>
+	</div>
+</div>

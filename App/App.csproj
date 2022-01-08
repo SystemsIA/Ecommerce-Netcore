@@ -10,13 +10,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10">
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.13">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.13" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.10">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.13">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -24,13 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Administrador\Controllers" />
-    <Folder Include="Areas\Administrador\Data" />
     <Folder Include="Areas\Administrador\Models" />
     <Folder Include="Areas\Public\Data" />
     <Folder Include="Areas\Public\Models" />
-    <Folder Include="Areas\Cliente\Controllers" />
     <Folder Include="Areas\Cliente\Models" />
+    <Folder Include="wwwroot\imagenes" />
+    <Folder Include="wwwroot\imagenes\productos" />
+    <Folder Include="wwwroot\lib\concept-admin" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,13 +39,19 @@
     <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <_ContentIncludedByDefault Remove="Views\_ViewImports.cshtml" />
     <_ContentIncludedByDefault Remove="Views\_ViewStart.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\Components\ProductoDetail.razor" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\LICENSE.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\imagenes\productos\1\7a00031c-ba3d-414b-95be-54fa9d6a735a.jpeg" />
+    <_ContentIncludedByDefault Remove="wwwroot\imagenes\productos\1\91560efc-dc9b-438b-a8e2-b504903ee713.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\imagenes\productos\1\a2b7ac5a-0e5c-42a8-ac22-9f0b99a01a75.jpeg" />
   </ItemGroup>
 
 </Project>

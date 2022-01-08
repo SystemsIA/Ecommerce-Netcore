@@ -1,0 +1,141 @@
+@model Domain.Models.Productos
+
+@{
+	ViewData["Title"] = $"{Model.Nombre} - Producto";
+	Layout = "~/Areas/Public/Views/Shared/_Layout.cshtml";
+}
+
+<div id="pay-backdrop" class="pay-backdrop">
+</div>
+<div class="container">
+	<h1 class="text-center text-black">@Model.Nombre</h1>
+	<hr/>
+	<div class="row">
+		<div class="col-md-8">
+			<div class="card p-2">
+				<dl class=row>
+					<dt class=col-sm-4>
+						@Html.DisplayNameFor(model => model.Nombre)
+					</dt>
+					<dd class=col-sm-6>
+						@Html.DisplayFor(model => model.Nombre)
+					</dd>
+					<dt class=col-sm-4>
+						@Html.DisplayNameFor(model => model.Descripcion)
+					</dt>
+					<dd class=col-sm-6>
+						@Html.DisplayFor(model => model.Descripcion)
+					</dd>
+					<dt class=col-sm-4>
+						@Html.DisplayNameFor(model => model.PrecioNormal)
+					</dt>
+					<dd class=col-sm-6>
+						@Html.DisplayFor(model => model.PrecioNormal)
+					</dd>
+					<dt class=col-sm-4>
+						@Html.DisplayNameFor(model => model.DescuentoPrecio)
+					</dt>
+					<dd class=col-sm-6>
+						@Html.DisplayFor(model => model.DescuentoPrecio)
+					</dd>
+					<dt class=col-sm-4>
+						@Html.DisplayNameFor(model => model.Cantidad)
+					</dt>
+					<dd class=col-sm-6>
+						<select id="cantidad-select" value="1" asp-for="Cantidad">
+						</select>
+					</dd>
+					<dt class=col-sm-4>
+						@Html.DisplayNameFor(model => model.ImagenPrincipal)
+					</dt>
+					<dd class=col-sm-6>
+						<img src=@Model.ImagenPrincipal alt=@Model.Nombre width=150>
+					</dd>
+				</dl>
+				<div class="row">
+					<div id="carouselImagenProductoControls" class="carousel slide" data-bs-ride="carousel">
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<img src="@ViewBag.ImagenPath" class="d-block w-50" alt="@Model.Nombre">
+							</div>
+						</div>
+						<button class="carousel-control-prev" type="button" data-bs-target="#carouselImagenProductoControls" data-bs-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Regresar</span>
+						</button>
+						<button class="carousel-control-next" type="button" data-bs-target="#carouselImagenProductoControls" data-bs-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Siguiente</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 ">
+			<div class="d-flex justify-content-center">
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">
+						<h5 class="color-secondary">Precio Total del Producto</h5>
+					</li>
+					<li class="list-group-item">Total Precio (PE): S/. <b data-pay="" data-price="@ViewBag.DescuentoPrecioSol" class="color-content">@ViewBag.DescuentoPrecioSol</b></li>
+					<li class="list-group-item">Total Price (USD): $ <b data-pay="" data-price="@ViewBag.PriceProductPaypal" class="color-content">@ViewBag.PriceProductPaypal</b></li>
+					<li class="list-group-item">Total Price: $ <span class="color-primary"><h3>@ViewBag.PriceProductPaypal</h3></span> </li>
+					<li class="list-group-item">
+						@{
+							System.Diagnostics.Debug.Assert(User.Identity != null, "User.Identity != null");
+						}
+						@if (User.Identity.IsAuthenticated)
+						{
+							<a class="btn btn-primary" asp-action="Payed" asp-route-id="@Model.Id">Ir ah pagar</a>
+						}
+						else
+						{
+							<button onclick="handleLoginClick()" class="btn btn-dark">Iniciar sesión</button>
+						}
+					</li>
+				</ul>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+@section Scripts
+{
+	<script>	
+	let cantidadSelectDOM = document.getElementById('cantidad-select');
+	let containerDOM = document.getElementById('pay-backdrop');
+	cantidadSelectDOM.innerHTML = generateOptions();
+  containerDOM.classList.remove('pay-backdrop');
+  let itemsDOM = document.querySelectorAll('b[data-price].color-content');
+	
+	
+	let totalPrice = @ViewBag.PriceProductPaypal;
+	localStorage.setItem('total-price',  totalPrice);	
+	localStorage.setItem('qty',  1);
+	
+	cantidadSelectDOM.addEventListener('change', e => {
+			totalPrice = totalPrice*Number(e.target.value);
+			localStorage.setItem('qty', e.target.value);
+			localStorage.setItem('total-price', totalPrice);
+  		itemsDOM.forEach(item => {
+				document.querySelector('span.color-primary').innerHTML = `<h3>${(Number(item.dataset.price)*Number(e.target.value)).toFixed(2)}</h3>`;
+				item.dataset.pay = (Number(item.dataset.price)*Number(e.target.value)).toFixed(2);
+  			item.innerHTML = `${(Number(item.dataset.price)).toFixed(2)} x ${e.target.value} = ${(Number(item.dataset.price)*Number(e.target.value)).toFixed(2)}`;
+  		});	
+  });
+	
+	function handleLoginClick() {
+		document.location.replace('/cliente/cuenta/login?redirect='+'@Context.Request.Path');
+	}
+	
+	function generateOptions(){
+		return `
+			${[...Array(@Model.Cantidad).keys()].map(m => `
+				<option value="${m+1}">${m+1}</option>
+			`)}
+		`;
+	}
+	
+	</script>
+}

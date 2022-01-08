@@ -19,6 +19,7 @@ namespace Domain.Models
         public string Apellido { get; set; }
         public bool Active { get; set; }
         public string Thumbnail { get; set; }
+        public long RolId { get; set; }
         public DateTime RegisteredAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 

@@ -22,7 +22,6 @@ namespace Domain.Models
         public virtual DbSet<Productos> Productos { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Transacciones> Transacciones { get; set; }
-        public virtual DbSet<UsuarioRoles> UsuarioRoles { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -282,31 +281,6 @@ namespace Domain.Models
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
-            modelBuilder.Entity<UsuarioRoles>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("usuario_roles");
-
-                entity.Property(e => e.RolId)
-                    .HasColumnType("integer")
-                    .HasColumnName("rol_id");
-
-                entity.Property(e => e.UsuarioId)
-                    .HasColumnType("integer")
-                    .HasColumnName("usuario_id");
-
-                entity.HasOne(d => d.Rol)
-                    .WithMany()
-                    .HasForeignKey(d => d.RolId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-
-                entity.HasOne(d => d.Usuario)
-                    .WithMany()
-                    .HasForeignKey(d => d.UsuarioId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-            });
-
             modelBuilder.Entity<Usuarios>(entity =>
             {
                 entity.ToTable("usuarios");
@@ -317,7 +291,8 @@ namespace Domain.Models
                 entity.Property(e => e.Id)
                     .HasColumnType("integer")
                     .ValueGeneratedNever()
-                    .HasColumnName("id");
+                    .HasColumnName("id")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Active)
                     .HasColumnType("bool")
@@ -343,7 +318,11 @@ namespace Domain.Models
                     .IsRequired()
                     .HasColumnType("varchar(255)")
                     .HasColumnName("password");
-
+                
+                entity.Property(e => e.RolId)
+                    .HasColumnType("integer")
+                    .HasColumnName("rol_id");
+                
                 entity.Property(e => e.RegisteredAt)
                     .IsRequired()
                     .HasColumnName("registered_at")

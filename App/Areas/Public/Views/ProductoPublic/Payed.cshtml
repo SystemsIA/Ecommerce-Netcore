@@ -1,0 +1,138 @@
+@model Domain.Models.Productos
+
+@{
+	ViewData["Title"] = $"{Model.Nombre} - Pagar Producto";
+	Layout = "~/Areas/Public/Views/Shared/_Layout.cshtml";
+}
+
+<div id="pay-backdrop" class="pay-backdrop">
+</div>
+<div class="container">
+	<h1 class="text-center text-black">@Model.Nombre</h1>
+	<hr/>
+	<div class="row">
+		<div class="col-md-8">
+			<div class="card p-2">
+				<dl class=row>
+					<dt class=col-sm-4>
+						@Html.DisplayNameFor(model => model.Sku)
+					</dt>
+					<dd class=col-sm-6>
+						@Html.DisplayFor(model => model.Sku)
+					</dd>
+					<dt class=col-sm-4>
+						@Html.DisplayNameFor(model => model.Nombre)
+					</dt>
+					<dd class=col-sm-6>
+						@Html.DisplayFor(model => model.Nombre)
+					</dd>
+					<dt class=col-sm-4>
+						@Html.DisplayNameFor(model => model.Descripcion)
+					</dt>
+					<dd class=col-sm-6>
+						@Html.DisplayFor(model => model.Descripcion)
+					</dd>
+					<dt class=col-sm-4>
+						@Html.DisplayNameFor(model => model.PrecioNormal)
+					</dt>
+					<dd class=col-sm-6>
+						@Html.DisplayFor(model => model.PrecioNormal)
+					</dd>
+					<dt class=col-sm-4>
+						@Html.DisplayNameFor(model => model.DescuentoPrecio)
+					</dt>
+					<dd class=col-sm-6>
+						@Html.DisplayFor(model => model.DescuentoPrecio)
+					</dd>
+					<dt class=col-sm-4>
+						@Html.DisplayNameFor(model => model.Cantidad)
+					</dt>
+					<dd class=col-sm-6 id="qty">
+						Cantidad: 
+					</dd>
+					<dt class=col-sm-4>
+						@Html.DisplayNameFor(model => model.ImagenPrincipal)
+					</dt>
+					<dd class=col-sm-6>
+						<img src=@Model.ImagenPrincipal alt=@Model.Nombre width=150>
+					</dd>
+				</dl>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<h5 class="text-center color-primary">Pagar con</h5>
+			<div class="m-2" id="paypal-button"></div>
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">
+					<h5 class="color-secondary">Precio Total del Producto</h5>
+				</li>
+				<li class="list-group-item">Total Price (USD): $ <b id="payed-price" class="color-content"></b></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+@section Scripts
+{
+	<script>	
+	let containerDOM = document.getElementById('pay-backdrop');
+	let payedPriceDOM = document.getElementById('payed-price');
+	let qtyDOM = document.getElementById('qty');
+	qtyDOM.innerHTML = `Cantidad: ${localStorage.getItem('qty')}`
+	let totalPrice = Number(localStorage.getItem('total-price')).toFixed(2);
+	
+	payedPriceDOM.innerText = `${totalPrice}`;
+		const keyClientId = "@ViewBag.ClientId";
+		if (!window.paypal) {
+			const script = document.createElement('script');
+			script.type = 'text/javascript';
+			script.src = 'https://www.paypalobjects.com/api/checkout.js';
+			script.async = true;
+			script.onload = () => handlePayment(keyClientId, totalPrice);
+			document.body.appendChild(script);
+		} else {
+			handlePayment(keyClientId, totalPrice);
+		}
+	function handlePayment(cliendId, totalPrice) {
+  	window.paypal.Button.render(
+  		{
+  			env: 'sandbox',
+  			client: {
+  				sandbox: cliendId,
+  				production: '',
+  			},
+  			locale: 'es_PE',
+  			style: {
+  				size: 'responsive',
+  				color: 'gold',
+  				shape: 'pill',
+  			},
+  			commit: true,
+  			payment(data, actions) {
+  				return actions.payment.create({
+  					transactions: [
+  						{
+  							amount: {
+  								total: totalPrice,
+  								currency: 'USD',
+  							},
+  						},
+  					],
+  				});
+  			},
+  			onAuthorize(data, actions) {
+  				console.log(data, actions);
+  				return actions.payment.execute().then(async () => {
+						// TODO: Register transaction
+  					console.log(data, actions);
+  				});
+  			},
+  		},
+  		'#paypal-button'
+  	).then(() => {
+			containerDOM.classList.remove('pay-backdrop');
+  		console.log('success');
+  	});
+  }
+	</script>
+}
