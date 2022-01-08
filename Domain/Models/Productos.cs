@@ -5,10 +5,11 @@ using System.Collections.Generic;
 
 namespace Domain.Models
 {
-    public class Productos
+    public partial class Productos
     {
         public Productos()
         {
+            Imagenes = new HashSet<Imagenes>();
             Pedidos = new HashSet<Pedidos>();
         }
 
@@ -16,14 +17,15 @@ namespace Domain.Models
         public string Sku { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public Decimal PrecioNormal { get; set; }
-        public Decimal DescuentoPrecio { get; set; }
+        public decimal PrecioNormal { get; set; }
+        public decimal DescuentoPrecio { get; set; }
         public long? Cantidad { get; set; }
         public string ImagenPrincipal { get; set; }
         public bool Disponible { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
+        public virtual ICollection<Imagenes> Imagenes { get; set; }
         public virtual ICollection<Pedidos> Pedidos { get; set; }
     }
 }

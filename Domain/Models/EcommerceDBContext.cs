@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
 namespace Domain.Models
 {
-    public class EcommerceDBContext : DbContext
+    public partial class EcommerceDBContext : DbContext
     {
         public EcommerceDBContext()
         {
@@ -26,7 +28,10 @@ namespace Domain.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured) optionsBuilder.UseSqlite("Name=ConnectionDB");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite("Name=ConnectionDB");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -59,20 +64,23 @@ namespace Domain.Models
 
             modelBuilder.Entity<Imagenes>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("imagenes");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("integer")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("id");
+
+                entity.Property(e => e.NombreImagen)
+                    .HasColumnType("varchar(300)")
+                    .HasColumnName("nombre_imagen");
 
                 entity.Property(e => e.ProductoId)
                     .HasColumnType("integer")
                     .HasColumnName("producto_id");
 
-                entity.Property(e => e.RutaImagen)
-                    .HasColumnType("varchar(300)")
-                    .HasColumnName("ruta_imagen");
-
                 entity.HasOne(d => d.Producto)
-                    .WithMany()
+                    .WithMany(p => p.Imagenes)
                     .HasForeignKey(d => d.ProductoId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
@@ -83,7 +91,7 @@ namespace Domain.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnType("integer")
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("id");
 
                 entity.Property(e => e.Cantidad)
@@ -167,7 +175,7 @@ namespace Domain.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnType("integer")
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("id");
 
                 entity.Property(e => e.Cantidad)
@@ -249,7 +257,7 @@ namespace Domain.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnType("integer")
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("id");
 
                 entity.Property(e => e.Codigo)
@@ -290,9 +298,8 @@ namespace Domain.Models
 
                 entity.Property(e => e.Id)
                     .HasColumnType("integer")
-                    .ValueGeneratedNever()
-                    .HasColumnName("id")
-                    .ValueGeneratedOnAdd();
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("id");
 
                 entity.Property(e => e.Active)
                     .HasColumnType("bool")
@@ -318,15 +325,15 @@ namespace Domain.Models
                     .IsRequired()
                     .HasColumnType("varchar(255)")
                     .HasColumnName("password");
-                
-                entity.Property(e => e.RolId)
-                    .HasColumnType("integer")
-                    .HasColumnName("rol_id");
-                
+
                 entity.Property(e => e.RegisteredAt)
                     .IsRequired()
                     .HasColumnName("registered_at")
                     .HasDefaultValueSql("current_timestamp");
+
+                entity.Property(e => e.RoleId)
+                    .HasColumnType("integer")
+                    .HasColumnName("role_id");
 
                 entity.Property(e => e.Thumbnail)
                     .HasColumnType("varchar(300)")
@@ -337,14 +344,16 @@ namespace Domain.Models
                     .IsRequired()
                     .HasColumnName("updated_at")
                     .HasDefaultValueSql("current_timestamp");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Usuarios)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             OnModelCreatingPartial(modelBuilder);
         }
 
-        public void OnModelCreatingPartial(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

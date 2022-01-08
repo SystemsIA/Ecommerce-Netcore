@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Domain.Models
 {
-    public class Usuarios
+    public partial class Usuarios
     {
         public Usuarios()
         {
@@ -13,16 +13,17 @@ namespace Domain.Models
         }
 
         public long Id { get; set; }
+        public long RoleId { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public bool Active { get; set; }
         public string Thumbnail { get; set; }
-        public long RolId { get; set; }
         public DateTime RegisteredAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
+        public virtual Roles Role { get; set; }
         public virtual ICollection<Pedidos> Pedidos { get; set; }
     }
 }
