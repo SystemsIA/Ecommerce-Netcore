@@ -71,7 +71,8 @@ namespace App.Areas.Administrador.Services
 
 		public async Task<ICollection<Productos>> GetAll(int? count)
 		{
-			var p = await _context.Productos.ToListAsync();
+			var p = await _context.Productos.OrderByDescending(q => q.Id)
+				.ToListAsync();
 			return count != null ? p.GetRange(0, 15) : p;
 		}
 

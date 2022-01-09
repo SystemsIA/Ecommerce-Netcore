@@ -80,7 +80,7 @@
 	let containerDOM = document.getElementById('pay-backdrop');
 	let payedPriceDOM = document.getElementById('payed-price');
 	let qtyDOM = document.getElementById('qty');
-	qtyDOM.innerHTML = `Cantidad: ${localStorage.getItem('qty')}`
+	qtyDOM.innerHTML = `Cantidad: ${localStorage.getItem('qty')}`;
 	let totalPrice = Number(localStorage.getItem('total-price')).toFixed(2);
 	
 	payedPriceDOM.innerText = `${totalPrice}`;
@@ -101,13 +101,13 @@
   			env: 'sandbox',
   			client: {
   				sandbox: cliendId,
-  				production: '',
+  				production: ''
   			},
   			locale: 'es_PE',
   			style: {
   				size: 'responsive',
   				color: 'gold',
-  				shape: 'pill',
+  				shape: 'pill'
   			},
   			commit: true,
   			payment(data, actions) {
@@ -116,10 +116,10 @@
   						{
   							amount: {
   								total: totalPrice,
-  								currency: 'USD',
-  							},
-  						},
-  					],
+  								currency: 'USD'
+  							}
+  						}
+  					]
   				});
   			},
   			onAuthorize(data, actions) {
@@ -127,8 +127,9 @@
   				return actions.payment.execute().then(async () => {
 						// TODO: Register transaction
   					console.log(data, actions);
+						winow.location.replace('/producto-detail/@Model.Id');d
   				});
-  			},
+  			}
   		},
   		'#paypal-button'
   	).then(() => {
