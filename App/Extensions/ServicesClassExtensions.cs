@@ -1,5 +1,6 @@
 ﻿using App.Areas.Administrador.Services;
 using App.Areas.Cliente.Services;
+using App.Areas.Public.Services;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +14,7 @@ namespace App.Extensions
 			service.AddScoped<IRoleService, RoleServiceImpl>();
 			service.AddScoped<IImagenService, ImagenServiceImpl>();
 			service.AddScoped<IProductoService, ProductoServiceImpl>();
+			service.AddScoped<ICategoriaService, CategoriaServiceImpl>();
 
 			return service;
 		}

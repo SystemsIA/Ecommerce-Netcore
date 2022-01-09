@@ -1,7 +1,7 @@
-using System.Linq;
 using System.Threading.Tasks;
 
 using App.Areas.Administrador.Data;
+using App.Areas.Administrador.Extensions;
 using App.Areas.Administrador.Services;
 using App.Attributes;
 
@@ -9,7 +9,6 @@ using Domain.Models;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace App.Areas.Administrador.Controllers
 {
@@ -17,36 +16,29 @@ namespace App.Areas.Administrador.Controllers
 	[Area("Administrador")]
 	public class ProductoController : Controller
 	{
-		private readonly EcommerceDBContext _context;
 		private readonly IProductoService _productoService;
 		private readonly IImagenService _imagenService;
 
-		public ProductoController(EcommerceDBContext context, IProductoService productoService,
-			IImagenService imagenService)
+		public ProductoController(IProductoService productoService, IImagenService imagenService)
 		{
-			_context = context;
 			_productoService = productoService;
 			_imagenService = imagenService;
 		}
 
-		// GET: Administrador/Producto
 		public async Task<IActionResult> Index()
 		{
 			return View(await _productoService.GetAll(null));
 		}
 
-		// GET: Administrador/Producto/Details/5
 		public async Task<IActionResult> Details(long id)
 		{
 			var producto = await _productoService.GetById(id);
-			var imagenes = await _imagenService.GetListById(id);
+			var imagenes = await _imagenService.GetListByIdAsync(id);
 
 			if (imagenes.Count > 0)
 			{
 				producto.Imagenes = imagenes;
 			}
-
-			if (producto == null) return NotFound();
 
 			return View(producto);
 		}
@@ -65,55 +57,37 @@ namespace App.Areas.Administrador.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
-		// GET: Administrador/Producto/Edit/5
-		public async Task<IActionResult> Edit(long? id)
+		public async Task<IActionResult> Edit(long id)
 		{
-			if (id == null) return NotFound();
-
-			var productos = await _context.Productos.FindAsync(id);
-			if (productos == null) return NotFound();
-
-			return View(productos);
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(long id,
-			[Bind(
-				"Id,Sku,Nombre,Descripcion,PrecioNormal,DescuentoPrecio,Cantidad,ImagenPrincipal,Disponible")]
-			Productos producto)
-		{
-			if (id != producto.Id) return NotFound();
-
-			if (ModelState.IsValid)
+			var producto = await _productoService.GetById(id);
+			if (producto == null)
 			{
-				try
-				{
-					_context.Update(producto);
-					await _context.SaveChangesAsync();
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!ProductoExists(producto.Id))
-						return NotFound();
-					throw;
-				}
-
-				return RedirectToAction("Edit", new {id = producto.Id});
+				return NotFound();
 			}
 
 			return View(producto);
 		}
 
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(long id, ProductoDto productoDto)
+		{
+			if (id != productoDto.Id) return NotFound();
+			Productos productoUpdate;
+			if (!ModelState.IsValid) return View(productoDto.AsProducto());
+			productoUpdate = await _productoService.UpdateProducto(productoDto);
+			return RedirectToAction("Edit", new {id = productoUpdate.Id});
+		}
+
 		public async Task<IActionResult> Delete(long? id)
 		{
-			if (id == null) return NotFound();
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-			var productos = await _context.Productos
-				.FirstOrDefaultAsync(m => m.Id == id);
-			if (productos == null) return NotFound();
-
-			return View(productos);
+			var producto = await _productoService.GetById(id);
+			return View(producto);
 		}
 
 		[HttpPost]
@@ -121,9 +95,7 @@ namespace App.Areas.Administrador.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteConfirmed(long id)
 		{
-			var productos = await _context.Productos.FindAsync(id);
-			_context.Productos.Remove(productos);
-			await _context.SaveChangesAsync();
+			await _productoService.DeleteProducto(id);
 			return RedirectToAction(nameof(Index));
 		}
 
@@ -135,9 +107,14 @@ namespace App.Areas.Administrador.Controllers
 			return RedirectToAction("Details", "Producto", new {id});
 		}
 
-		private bool ProductoExists(long id)
+		// Request from Details product
+		[HttpPost]
+		public async Task<IActionResult> EliminarImagen(long idProducto, long idImagen)
 		{
-			return _context.Productos.Any(e => e.Id == id);
+			var deleted = await _imagenService.EliminarImagen(idImagen);
+			ViewBag.Message = deleted ? "Se elmino exitosamente" : "Sucedio un problema";
+
+			return RedirectToAction("Details", "Producto", new {id = idProducto});
 		}
 	}
 }

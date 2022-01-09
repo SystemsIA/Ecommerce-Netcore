@@ -11,9 +11,11 @@ namespace App.Areas.Administrador.Services
 	public interface IProductoService
 	{
 		public Task<Productos> CrearProducto(ProductoDto dto);
-		public Task<Productos> GetById(long id);
+		public Task<Productos> GetById(long? id);
 		public Task<bool> DeleteProducto(long id);
 		public Task<Productos> GetBySKU(string sku);
+		public Task<Productos> UpdateProducto(ProductoDto dto);
 		public Task<ICollection<Productos>> GetAll(int? count);
+		public bool ProductoExists(long id);
 	}
 }

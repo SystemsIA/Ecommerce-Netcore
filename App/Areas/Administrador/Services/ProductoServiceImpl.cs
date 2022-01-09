@@ -1,9 +1,11 @@
 ﻿#nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using App.Areas.Administrador.Data;
+using App.Areas.Administrador.Extensions;
 
 using Domain.Models;
 
@@ -39,7 +41,7 @@ namespace App.Areas.Administrador.Services
 			return newProducto;
 		}
 
-		public async Task<Productos> GetById(long id)
+		public async Task<Productos> GetById(long? id)
 		{
 			var producto = await _context.Productos
 				.FirstOrDefaultAsync(m => m.Id == id);
@@ -71,6 +73,26 @@ namespace App.Areas.Administrador.Services
 		{
 			var p = await _context.Productos.ToListAsync();
 			return p.GetRange(0, count ?? 10);
+		}
+
+		public async Task<Productos> UpdateProducto(ProductoDto dto)
+		{
+			try
+			{
+				_context.Productos.Update(dto.AsProducto());
+				await _context.SaveChangesAsync();
+				return dto.AsProducto();
+			}
+			catch (DbUpdateConcurrencyException e)
+			{
+				Console.WriteLine(e);
+				return null;
+			}
+		}
+
+		public bool ProductoExists(long id)
+		{
+			return _context.Productos.Any(e => e.Id == id);
 		}
 	}
 }

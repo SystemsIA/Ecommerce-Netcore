@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +14,7 @@ namespace App.Areas.Administrador.Services
 {
 	public class ImagenServiceImpl : IImagenService
 	{
+		public static string PathImages = "imagenes\\productos\\";
 		private readonly EcommerceDBContext _context;
 		private readonly IWebHostEnvironment _environment;
 
@@ -35,7 +35,7 @@ namespace App.Areas.Administrador.Services
 				Directory.CreateDirectory(pathBase);
 			}
 
-			var pathImagen = Path.Combine(_environment.WebRootPath, "imagenes\\productos\\", objectId + "\\");
+			var pathImagen = Path.Combine(_environment.WebRootPath, PathImages, objectId + "\\");
 			if (!Directory.Exists(pathImagen))
 			{
 				Directory.CreateDirectory(pathImagen);
@@ -53,12 +53,35 @@ namespace App.Areas.Administrador.Services
 
 		public async Task<Imagenes> GetById(long id)
 		{
-			return await _context.Imagenes.FirstOrDefaultAsync(q => q.ProductoId == id);
+			return await _context.Imagenes.FindAsync(id);
 		}
 
-		public async Task<ICollection<Imagenes>> GetListById(long id)
+		public async Task<ICollection<Imagenes>> GetListByIdAsync(long id)
 		{
 			return await _context.Imagenes.Where(q => q.ProductoId.Equals(id)).ToListAsync();
+		}
+
+		public async Task<bool> EliminarImagen(long id)
+		{
+			var imagen = await GetById(id);
+			if (imagen == null) return false;
+			var ruta = Path.Combine(_environment.WebRootPath, PathImages, imagen.ProductoId + "\\",
+				imagen.NombreImagen);
+
+			if (File.Exists(ruta))
+			{
+				File.Delete(ruta);
+				_context.Imagenes.Remove(imagen);
+				await _context.SaveChangesAsync();
+				return true;
+			}
+
+			return false;
+		}
+
+		public ICollection<Imagenes> GetListById(long id)
+		{
+			return _context.Imagenes.Where(q => q.ProductoId.Equals(id)).ToList();
 		}
 	}
 }

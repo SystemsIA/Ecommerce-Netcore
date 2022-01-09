@@ -4,7 +4,7 @@
 <head>
 	<meta charset=utf-8/>
 	<meta name=viewport content="width=device-width, initial-scale=1.0"/>
-	<title>@ViewData["Title"]	| Ecommerce</title>
+	<title>@ViewData["Title"]	| Ecopeque</title>
 	<link rel=stylesheet href=~/lib/bootstrap/dist/css/bootstrap.css>
 	<link rel=stylesheet href=~/css/site.css/>
 </head>
@@ -13,7 +13,7 @@
 <header>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container container-fluid">
-			<a class=navbar-brand asp-area=Public asp-controller=Home asp-action=Index>Ecopeque</a>
+			<a class="navbar-brand color-primary" asp-area=Public asp-controller=Home asp-action=Index>Ecopeque</a>
 			<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarNavEcommerce
 			        aria-controls=navbarNavEcommerce aria-expanded=false aria-label="Toggle navigation">
 				<span class=navbar-toggler-icon></span>
@@ -21,10 +21,10 @@
 			<div class="collapse navbar-collapse" id=navbarNavEcommerce>
 				<ul class=navbar-nav>
 					<li class=nav-item>
-						<a class="nav-link active" aria-current=page href=#>Inicio</a>
+						<a class="nav-link active color-primary" aria-current=page asp-area=Public asp-controller=Home asp-action=Index>Inicio</a>
 					</li>
 					<li class=nav-item>
-						<a class=nav-link href=#>Tienda</a>
+						<a class=nav-link asp-controller="Tienda" asp-action="Index">Tienda</a>
 					</li>
 					<li class=nav-item>
 						<a class=nav-link href=#>Sobre Nostros</a>
@@ -32,19 +32,16 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href=# id=navbarDropdownMenuLinkEcommerce role=button
 						   data-bs-toggle=dropdown aria-expanded=false>
-							Dropdown link
+							Categorias
 						</a>
 						<ul class=dropdown-menu aria-labelledby=navbarDropdownMenuLinkEcommerce>
 							<li>
-								<a class=dropdown-item href=#>Action</a>
-							</li>
-							<li>
-								<a class=dropdown-item href=#>Another action</a>
-							</li>
-							<li>
-								<a class=dropdown-item href=#>Something else here</a>
+								<a class=dropdown-item asp-controller="Tienda" asp-action="ProductosByCategoria">Productos por categorias</a>
 							</li>
 						</ul>
+					</li>
+					<li class="nav-item d-flex flex-grow-1">
+						<span class="flex-grow-1"></span>
 					</li>
 					<li class="nav-item">
 						@{

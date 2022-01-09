@@ -11,6 +11,8 @@ namespace App.Areas.Administrador.Services
 	{
 		public Task<bool> GuardarImagen(IFormFile imagen, long objectId);
 		public Task<Imagenes> GetById(long id);
-		public Task<ICollection<Imagenes>> GetListById(long id);
+		public Task<bool> EliminarImagen(long id);
+		public Task<ICollection<Imagenes>> GetListByIdAsync(long id);
+		public ICollection<Imagenes> GetListById(long id);
 	}
 }

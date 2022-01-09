@@ -109,32 +109,21 @@ else
 				<div class="card">
 					<h5 class="card-header">Imagenes del producto</h5>
 					<div class="card-body">
-						<div id="carouselImagenesIndicators" class="carousel slide" data-ride="carousel">
-							<ol class="carousel-indicators">
-								<li data-target="#carouselImagenesIndicators" data-slide-to="0" class=""></li>
-								<li data-target="#carouselImagenesIndicators" data-slide-to="1" class="active"></li>
-								<li data-target="#carouselImagenesIndicators" data-slide-to="2" class=""></li>
-							</ol>
-							<div class="carousel-inner">
-								@if (Model.Imagenes != null)
-								{
-									@foreach (var item in Model.Imagenes)
-									{
-										<div class="carousel-item active">
-											<img src="/imagenes/productos/@Model.Id/@item.NombreImagen" class="d-block w-25" alt="@Model.Nombre + RutaImagen">
-										</div>
-									}
-								}
-							</div>
-							<a class="carousel-control-prev" href="#carouselImagenesIndicators" role="button" data-slide="prev">
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-								<span class="sr-only">Previous</span>
-							</a>
-							<a class="carousel-control-next" href="#carouselImagenesIndicators" role="button" data-slide="next">
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-								<span class="sr-only">Next</span>
-							</a>
-						</div>
+						<p class="text-danger">@ViewBag.Message</p>
+						@if (Model.Imagenes != null)
+						{
+							@foreach (var item in Model.Imagenes)
+							{
+								<div class="position-relative">
+									<form class="position-absolute form-deleted-img" method="post" asp-action="EliminarImagen">
+										<input type="hidden" name="idProducto" value="@Model.Id">
+										<input type="hidden" name="idImagen" value="@item.Id">
+										<button class="btn btn-sm btn-danger" type="submit">X</button>
+									</form>
+									<img src="/imagenes/productos/@Model.Id/@item.NombreImagen" class="d-block w-25" alt="@Model.Nombre + RutaImagen">
+								</div>
+							}
+						}
 					</div>
 				</div>
 			</div>

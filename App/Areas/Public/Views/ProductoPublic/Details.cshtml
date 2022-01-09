@@ -36,7 +36,7 @@
 						@Html.DisplayNameFor(model => model.DescuentoPrecio)
 					</dt>
 					<dd class=col-sm-6>
-						@Html.DisplayFor(model => model.DescuentoPrecio)
+						@Html.DisplayFor(model => model.DescuentoPrecio)%
 					</dd>
 					<dt class=col-sm-4>
 						@Html.DisplayNameFor(model => model.Cantidad)
@@ -53,20 +53,16 @@
 					</dd>
 				</dl>
 				<div class="row">
-					<div id="carouselImagenProductoControls" class="carousel slide" data-bs-ride="carousel">
-						<div class="carousel-inner">
-							<div class="carousel-item active">
-								<img src="@ViewBag.ImagenPath" class="d-block w-50" alt="@Model.Nombre">
-							</div>
-						</div>
-						<button class="carousel-control-prev" type="button" data-bs-target="#carouselImagenProductoControls" data-bs-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Regresar</span>
-						</button>
-						<button class="carousel-control-next" type="button" data-bs-target="#carouselImagenProductoControls" data-bs-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Siguiente</span>
-						</button>
+					<div class="container-fluid">
+						@if (Model.Imagenes != null)
+						{
+							@foreach (var item in Model.Imagenes)
+							{
+								<div class="carousel-item active">
+									<img src="/imagenes/productos/@item.Id/@item.NombreImagen" class="d-block w-50" alt="@item.NombreImagen">
+								</div>
+							}
+						}
 					</div>
 				</div>
 			</div>
@@ -79,7 +75,12 @@
 					</li>
 					<li class="list-group-item">Total Precio (PE): S/. <b data-pay="" data-price="@ViewBag.DescuentoPrecioSol" class="color-content">@ViewBag.DescuentoPrecioSol</b></li>
 					<li class="list-group-item">Total Price (USD): $ <b data-pay="" data-price="@ViewBag.PriceProductPaypal" class="color-content">@ViewBag.PriceProductPaypal</b></li>
-					<li class="list-group-item">Total Price: $ <span class="color-primary"><h3>@ViewBag.PriceProductPaypal</h3></span> </li>
+					<li class="list-group-item">
+						Total Price: $
+						<span class="color-primary">
+							<h3>@ViewBag.PriceProductPaypal</h3>
+						</span>
+					</li>
 					<li class="list-group-item">
 						@{
 							System.Diagnostics.Debug.Assert(User.Identity != null, "User.Identity != null");
@@ -111,13 +112,12 @@
 	
 	
 	let totalPrice = @ViewBag.PriceProductPaypal;
-	localStorage.setItem('total-price',  totalPrice);	
+	localStorage.setItem('total-price',  `${totalPrice}`);	
 	localStorage.setItem('qty',  1);
 	
 	cantidadSelectDOM.addEventListener('change', e => {
-			totalPrice = totalPrice*Number(e.target.value);
 			localStorage.setItem('qty', e.target.value);
-			localStorage.setItem('total-price', totalPrice);
+			localStorage.setItem('total-price', `${totalPrice*Number(e.target.value)}`);
   		itemsDOM.forEach(item => {
 				document.querySelector('span.color-primary').innerHTML = `<h3>${(Number(item.dataset.price)*Number(e.target.value)).toFixed(2)}</h3>`;
 				item.dataset.pay = (Number(item.dataset.price)*Number(e.target.value)).toFixed(2);

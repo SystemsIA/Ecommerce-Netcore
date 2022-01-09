@@ -2,12 +2,10 @@ using System;
 using System.Threading.Tasks;
 
 using App.Areas.Administrador.Services;
-
-using Domain.Models;
+using App.Utils;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace App.Areas.Public.Controllers
@@ -15,44 +13,40 @@ namespace App.Areas.Public.Controllers
 	[Area("Public")]
 	public class ProductoPublicController : Controller
 	{
-		private readonly EcommerceDBContext _context;
 		private readonly IConfiguration _configuration;
 		private readonly IImagenService _imagenService;
+		private readonly IProductoService _productoService;
 
-		public ProductoPublicController(EcommerceDBContext context, IConfiguration configuration,
-			IImagenService imagenService)
+		public ProductoPublicController(IConfiguration configuration,
+			IImagenService imagenService, IProductoService productoService)
 		{
-			_context = context;
 			_configuration = configuration;
 			_imagenService = imagenService;
+			_productoService = productoService;
 		}
 
 		// GET: Public/Producto/Details/5
 		[HttpGet("producto-detail/{id:long}")]
-		public async Task<IActionResult> Details(long? id)
+		public async Task<IActionResult> Details(long id)
 		{
-			if (id == null) return NotFound();
-
-			var producto = await _context.Productos
-				.FirstOrDefaultAsync(m => m.Id == id);
-			if (producto == null) return NotFound();
-
-			var imagen = await _imagenService.GetById(producto.Id);
-			if (imagen != null)
+			var producto = await _productoService.GetById(id);
+			var imagenes = await _imagenService.GetListByIdAsync(producto.Id);
+			if (imagenes != null)
 			{
-				ViewBag.ImagenPath = $"/imagenes/productos/{id}/{imagen.NombreImagen}";
+				producto.Imagenes = imagenes;
 			}
 
 			var descuentoSol = (double) producto.PrecioNormal -
 			                   (double) producto.DescuentoPrecio * (double) producto.PrecioNormal;
-			var descuentoUSD = (double) producto.PrecioNormal / 3.95 -
-			                   (double) producto.DescuentoPrecio * ((double) producto.PrecioNormal / 3.95);
+			var descuentoUsd = (double) producto.PrecioNormal / Currency.Dolar -
+			                   (double) producto.DescuentoPrecio * ((double) producto.PrecioNormal / Currency.Dolar);
 			ViewBag.PrecioNormalSol = Math.Round(producto.PrecioNormal, 2);
-			ViewBag.PrecioNormalUSD = Math.Round((double) producto.PrecioNormal / 3.95, 2);
+			ViewBag.PrecioNormalUSD = Math.Round((double) producto.PrecioNormal / Currency.Dolar, 2);
 
 			ViewBag.DescuentoPrecioSol = Math.Round(descuentoSol, 2);
-			ViewBag.PriceProductPaypal = Math.Round(descuentoUSD, 2);
+			ViewBag.PriceProductPaypal = Math.Round(descuentoUsd, 2);
 
+			producto.DescuentoPrecio *= 100;
 			return View(producto);
 		}
 
@@ -60,12 +54,19 @@ namespace App.Areas.Public.Controllers
 		[Route("pagar/{id:long}")]
 		public async Task<IActionResult> Payed(long id)
 		{
-			var producto = await _context.Productos
-				.FirstOrDefaultAsync(m => m.Id == id);
+			var producto = await _productoService.GetById(id);
 			ViewBag.ClientId = _configuration["ClientId"];
-			var descuentoUSD = (double) producto.PrecioNormal / 3.95 -
-			                   (double) producto.DescuentoPrecio * ((double) producto.PrecioNormal / 3.95);
-			ViewBag.PriceProductPaypal = Math.Round(descuentoUSD, 2);
+			var descuentoUsd = (double) producto.PrecioNormal / Currency.Dolar -
+			                   (double) producto.DescuentoPrecio * ((double) producto.PrecioNormal / Currency.Dolar);
+			ViewBag.PriceProductPaypal = Math.Round(descuentoUsd, 2);
+			var imagenes = await _imagenService.GetListByIdAsync(producto.Id);
+			if (imagenes != null)
+			{
+				producto.Imagenes = imagenes;
+			}
+
+			producto.DescuentoPrecio *= 100;
+
 			return View(producto);
 		}
 	}
