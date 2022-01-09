@@ -82,7 +82,7 @@ namespace Domain.Models
                 entity.HasOne(d => d.Producto)
                     .WithMany(p => p.Imagenes)
                     .HasForeignKey(d => d.ProductoId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    .OnDelete(DeleteBehavior.ClientCascade);
             });
 
             modelBuilder.Entity<Pedidos>(entity =>
@@ -129,7 +129,7 @@ namespace Domain.Models
                 entity.HasOne(d => d.Producto)
                     .WithMany(p => p.Pedidos)
                     .HasForeignKey(d => d.ProductoId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    .OnDelete(DeleteBehavior.ClientCascade);
 
                 entity.HasOne(d => d.Usuario)
                     .WithMany(p => p.Pedidos)
@@ -154,12 +154,12 @@ namespace Domain.Models
                 entity.HasOne(d => d.Categoria)
                     .WithMany()
                     .HasForeignKey(d => d.CategoriaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    .OnDelete(DeleteBehavior.ClientCascade);
 
                 entity.HasOne(d => d.Producto)
                     .WithMany()
                     .HasForeignKey(d => d.ProductoId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    .OnDelete(DeleteBehavior.ClientCascade);
             });
 
             modelBuilder.Entity<Productos>(entity =>

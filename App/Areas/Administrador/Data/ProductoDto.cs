@@ -13,5 +13,6 @@ namespace App.Areas.Administrador.Data
 		[Required] public Decimal DescuentoPrecio { get; set; }
 		[Required] public long? Cantidad { get; set; }
 		[Required] public string ImagenPrincipal { get; set; }
+		[Required] public bool Disponible { get; set; }
 	}
 }

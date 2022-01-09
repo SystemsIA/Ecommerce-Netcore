@@ -58,9 +58,7 @@
 						{
 							@foreach (var item in Model.Imagenes)
 							{
-								<div class="carousel-item active">
-									<img src="/imagenes/productos/@item.Id/@item.NombreImagen" class="d-block w-50" alt="@item.NombreImagen">
-								</div>
+								<img src="/imagenes/productos/@item.ProductoId/@item.NombreImagen" class="d-block w-50 img-fluid" alt="@item.NombreImagen">
 							}
 						}
 					</div>

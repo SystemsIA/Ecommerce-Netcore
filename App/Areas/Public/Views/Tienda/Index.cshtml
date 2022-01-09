@@ -1,45 +1,44 @@
-﻿@{
+@{
 	ViewData["Title"] = "Tienda";
 	Layout = "_Layout";
 }
 
 <div class="row">
-	<div class='col col-sm-6 col-md-4'>
+	<div class='col col-sm-3 col-md-3'>
+		<h4 class="color-content">Categorias</h4>
 		<ul class="list-group">
-			<li class="list-group-item">
-				<input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-				First checkbox
-			</li>
-			<li class="list-group-item">
-				<input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-				Second checkbox
-			</li>
-			<li class="list-group-item">
-				<input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-				Third checkbox
-			</li>
-			<li class="list-group-item">
-				<input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-				Fourth checkbox
-			</li>
-			<li class="list-group-item">
-				<input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-				Fifth checkbox
-			</li>
+			@foreach (var item in ViewBag.Categorias)
+			{
+				<li class="list-group-item">
+					<input class="form-check-input me-1" type="checkbox" value="@item.Nombre" aria-label="@item.Nombre">
+					@item.Nombre
+				</li>
+			}
 		</ul>
 	</div>
-	<div class='col col-sm-6 col-md-8'>
-		<div class='row row-cols-3 row-cols-md-3'>
-				<div class='col'>
-					<div class="card" style="width: 18rem;">
-						<img src="..." class="card-img-top" alt="...">
-						<div class="card-body">
-							<h5 class="card-title">Card title</h5>
-							<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="#" class="btn btn-primary">Go somewhere</a>
-						</div>
+	<div class='col col-sm-9 col-md-9'>
+		<h4 class="color-primary text-center">Todos los Productos</h4>
+		<div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+			@foreach (var item in Model)
+			{
+				<div class="card mx-2" style="width: 18rem;">
+					@if (item.Imagenes != null)
+					{
+						<img src="@item.Imagenes.FirstOrDefault()?.NombreImagen" class="card-img-top" alt="...">
+					}
+					else
+					{
+						<img src="@item.ImagenPrincipal" class="card-img-top" alt="@item.Nombre">
+					}
+					<div class="card-body d-flex flex-column justify-content-center">
+						<h5 class="card-title">@item.Nombre</h5>
+						<p class="color-primary">Categoria: <b>@ViewBag.NombreCategoria</b></p>
+						<p class="card-text">@item.Descripcion</p>
+						<a asp-action="Details" asp-controller="ProductoPublic" asp-route-id="@item.Id" class="btn btn-primary">Comprar</a>
 					</div>
 				</div>
+			}
 		</div>
 	</div>
+
 </div>

@@ -18,6 +18,7 @@ namespace App.Areas.Administrador.Extensions
 				DescuentoPrecio = dto.DescuentoPrecio,
 				Cantidad = dto.Cantidad,
 				ImagenPrincipal = dto.ImagenPrincipal,
+				Disponible = dto.Disponible
 			};
 			return p;
 		}

@@ -44,6 +44,7 @@ namespace App.Areas.Public.Services
 						Cantidad = p.Cantidad,
 						Imagenes = _imagenService.GetListById(p.Id),
 						Disponible = p.Disponible,
+						ImagenPrincipal = p.ImagenPrincipal,
 						Descripcion = p.Descripcion,
 						Nombre = p.Nombre,
 						Id = p.Id,

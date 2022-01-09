@@ -4,6 +4,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using App.Areas.Administrador.Services;
+
 using Domain.Models;
 
 using Microsoft.AspNetCore.Mvc;
@@ -15,19 +17,19 @@ namespace App.Areas.Public.Controllers
 	[Route("")]
 	public class HomeController : Controller
 	{
-		private readonly EcommerceDBContext _context;
+		private readonly IProductoService _productoService;
 
-		public HomeController(EcommerceDBContext context)
+		public HomeController(IProductoService productoService)
 		{
-			_context = context;
+			_productoService = productoService;
 		}
 
 		[HttpGet, Route("")]
 		public async Task<IActionResult> Index()
 		{
-			var results = await _context.Productos.Where(q => q.Disponible).ToListAsync();
+			var results = await _productoService.GetAll(null);
 
-			return View(results.GetRange(0, 10));
+			return View(results);
 		}
 	}
 }

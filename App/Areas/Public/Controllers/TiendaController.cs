@@ -25,12 +25,6 @@ namespace App.Areas.Public.Controllers
 			_producto = producto;
 		}
 
-		[HttpGet]
-		public IActionResult Index()
-		{
-			return View();
-		}
-
 		[HttpGet("by/categoria")]
 		public async Task<IActionResult> ProductosByCategoria([FromQuery(Name = "categoria")] string nombre)
 		{
@@ -43,6 +37,7 @@ namespace App.Areas.Public.Controllers
 			ICollection<Productos> filterData;
 
 			var categoria = await _categoria.GetByNombre(nombre);
+			ViewBag.NombreCategoria = categoria.Nombre;
 			filterData = await _categoria.GetProductosByCategoriaId(categoria.Id);
 
 			return View(filterData);
