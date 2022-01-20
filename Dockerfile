@@ -3,7 +3,7 @@ ENV DOTNET_EnableDiagnostics=0
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
-ENV ASPNETCORE_URLS=http://*:$PORT
+# ENV ASPNETCORE_URLS=http://*:$PORT
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
@@ -24,4 +24,5 @@ RUN dotnet publish "App.csproj" -c Release -o /app/publish_app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish_app /app/publish_app .
-ENTRYPOINT ["dotnet", "App.dll"]
+# ENTRYPOINT ["dotnet", "App.dll"]
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet App.dll
