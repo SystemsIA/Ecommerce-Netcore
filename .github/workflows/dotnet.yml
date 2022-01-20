@@ -23,3 +23,5 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Run APP
+      run: dotnet /app/actions-runner/_work/Ecommerce-Netcore/Ecommerce-Netcore/App/bin/Debug/net5.0/App.dll
