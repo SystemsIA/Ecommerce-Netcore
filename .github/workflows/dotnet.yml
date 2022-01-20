@@ -8,11 +8,11 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
     
     - name: Build, Push and Release a Docker container to Heroku.
       uses: gonuit/heroku-docker-deploy@v1.3.3
