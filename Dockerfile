@@ -11,11 +11,11 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY App/App.csproj App/
-
 COPY Domain/Domain.csproj App/
+
 RUN dotnet restore "App/App.csproj" && dotnet restore "App/Domain.csproj"
-RUN dotnet user-secrets init --project /src/App
-RUN dotnet user-secrets set ConnectionStrings:ConnectionDb "$DATABASE_SOURCE_APP" --project /src/App
+RUN dotnet user-secrets init --project app/src/App/
+RUN dotnet user-secrets set ConnectionStrings:ConnectionDb "$DATABASE_SOURCE_APP" --project app/src/App/
 
 COPY . .
 
