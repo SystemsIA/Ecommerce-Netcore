@@ -76,7 +76,7 @@ namespace App.Areas.Administrador.Services
 			return count != null ? p.GetRange(0, 15) : p;
 		}
 
-		public async Task<Productos> UpdateProducto(ProductoDto dto)
+		public async Task<Productos?> UpdateProducto(ProductoDto dto)
 		{
 			try
 			{

@@ -30,7 +30,8 @@ namespace Domain.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite("Name=ConnectionDB");
+                optionsBuilder.UseNpgsql("Name=ConnectionDb");
+                optionsBuilder.UseSqlite("Name=ConnectionDb");
             }
         }
 
@@ -222,8 +223,8 @@ namespace Domain.Models
                     .HasColumnName("sku");
 
                 entity.Property(e => e.UpdatedAt)
-                    .IsRequired()
                     .HasColumnName("updated_at")
+                    .IsRequired()
                     .HasDefaultValueSql("current_timestamp");
             });
 

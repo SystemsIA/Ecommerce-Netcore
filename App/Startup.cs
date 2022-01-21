@@ -23,12 +23,12 @@ namespace App
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			
 			services.AddControllersWithViews();
 			services.AddServicesClassApp();
 			services.AddAuthenticateUserApp();
 			services.AddDbContext<EcommerceDBContext>(config =>
-				config.UseSqlite(Configuration.GetConnectionString("ConnectionDb")));
+				config.UseNpgsql(Configuration.GetConnectionString("ConnectionDb"))
+					.UseSnakeCaseNamingConvention());
 
 			services.AddHttpContextAccessor();
 			// Services Blazor Size
