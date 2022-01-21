@@ -20,7 +20,7 @@ COPY . .
 # App
 WORKDIR "/src/App"
 RUN dotnet user-secrets init
-RUN dotnet user-secrets set ConnectionStrings:ConnectionDb $DATABASE_SOURCE_APP
+RUN dotnet user-secrets set ConnectionStrings:ConnectionDb "$DATABASE_SOURCE_APP"
 RUN dotnet build "App.csproj" -c Release -o /app/build_app
 FROM build AS publish_app
 RUN dotnet publish "App.csproj" -c Release -o /app/publish_app
