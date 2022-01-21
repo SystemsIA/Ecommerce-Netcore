@@ -1,5 +1,8 @@
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+
 ENV DOTNET_EnableDiagnostics=0
+ENV DATABASE_SOURCE_APP
+
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -16,6 +19,8 @@ COPY . .
 
 # App
 WORKDIR "/src/App"
+RUN dotnet user-secrets init
+RUN dotnet user-secrets set ConnectionStrings:ConnectionDb $DATABASE_SOURCE_APP
 RUN dotnet build "App.csproj" -c Release -o /app/build_app
 FROM build AS publish_app
 RUN dotnet publish "App.csproj" -c Release -o /app/publish_app

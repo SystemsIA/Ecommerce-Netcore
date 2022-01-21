@@ -23,5 +23,3 @@ jobs:
         dockerfile_directory: ./
         dockerfile_name: Dockerfile
         process_type: web
-      
-
