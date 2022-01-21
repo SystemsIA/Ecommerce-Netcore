@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 
 ENV DOTNET_EnableDiagnostics=0
-ENV DATABASE_SOURCE_APP
+ENV DATABASE_SOURCE_APP $DATABASE_SOURCE_APP
 
 WORKDIR /app
 EXPOSE 80
