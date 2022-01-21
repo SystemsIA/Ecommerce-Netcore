@@ -17,7 +17,7 @@ RUN dotnet restore "App/App.csproj" && dotnet restore "App/Domain.csproj"
 # RUN dotnet user-secrets init --project /src/App/App.csproj
 # RUN dotnet user-secrets set ConnectionStrings:ConnectionDb "$DATABASE_SOURCE_APP" --project /src/App/App.csproj
 
-COPY . App/
+COPY App/ /src/App/
 
 # App
 WORKDIR "/src/App"
