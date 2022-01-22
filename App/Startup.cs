@@ -29,7 +29,7 @@ namespace App
 			services.AddDbContext<EcommerceDBContext>(config =>
 				config.UseNpgsql(Configuration.GetConnectionString("ConnectionDb"))
 					.UseSnakeCaseNamingConvention());
-
+		
 			services.AddHttpContextAccessor();
 			// Services Blazor Size
 			services.AddServerSideBlazor();
